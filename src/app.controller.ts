@@ -18,16 +18,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('init')
-  async init() {
-    this.botService.start();
-  }
   @Redirect()
   @Get('/logme')
   async logme(@Req() request: Request) {
-    
-    // let token = await this.authService.generateToken42User(request.query.code as string);
-    // console.log(token);
     return { url : `https://wa.me/971509394777?text=tk:${request.query.code}:`, status: 200 };
   }
 }

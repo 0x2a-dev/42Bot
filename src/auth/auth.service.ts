@@ -20,8 +20,7 @@ export class AuthService {
             client_secret: this.configService.get('SECRECT'),
             code,
             redirect_uri: `${this.configService.get('APP_URL')}/logme`,
-            // maxAge: 60 * 60 * 60 * 60 * 60 *2,
-            scope: "public projects",
+            scope: this.configService.get('SCOPE'),
           }));
           console.log(res.data);
         return res.data;
