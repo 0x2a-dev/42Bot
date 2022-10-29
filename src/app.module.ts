@@ -20,7 +20,8 @@ import { FtApiService } from './ft-api/ft-api.service';
     ProfileService,
     PrismaService,
     UserService,
-    FtApiService],
+    FtApiService,
+  ],
 })
 export class AppModule {
   constructor(private botService: BotService) {
