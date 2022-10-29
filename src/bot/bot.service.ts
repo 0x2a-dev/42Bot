@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { create } from '@open-wa/wa-automate';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from 'src/auth/auth.service';
+import { UserService } from 'src/user/user.service';
 
 export interface Token {
 	access_token: string;
@@ -17,7 +18,7 @@ export class BotService {
 
 	private whatsapp: any;
 
-	constructor(private configService: ConfigService, private authService: AuthService) {
+	constructor(private configService: ConfigService, private authService: AuthService, private userService: UserService) {
 	}
 
 	async init() {
