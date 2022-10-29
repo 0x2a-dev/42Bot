@@ -31,4 +31,20 @@ export class AuthService {
       console.log(e);
     }
   }
+
+  async getIntraUserInformation(accessToken: string) {
+    try {
+      let res: any = await this.httpService.axiosRef.get(
+        'https://api.intra.42.fr/v2/me',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      return res.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }

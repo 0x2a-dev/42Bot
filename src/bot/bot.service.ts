@@ -4,13 +4,32 @@ import { ConfigService } from '@nestjs/config';
 import { AuthService } from 'src/auth/auth.service';
 import { UserService } from 'src/user/user.service';
 
-export interface Token {
+export interface TokenResponse {
   access_token: string;
+  refresh_token: string;
   token_type: string;
   expires_in: number;
   scope: string;
   created_at: number;
   [key: string]: any;
+}
+
+export interface Campus {
+  id: number;
+  name: string;
+}
+
+export interface UserAPIResponse {
+  id: number;
+  email: string;
+  login: string;
+  first_name: string;
+  last_name: string;
+  usual_full_name: string;
+  displayname: string;
+  phone: 'hidden' | string;
+  kind: 'student';
+  campus: [Campus];
 }
 
 @Injectable()
@@ -59,11 +78,34 @@ export class BotService {
         );
       } else if (message.body.includes('tk:')) {
         let code = message.body.split(':')[1];
-        let token: Token = await this.authService.generateToken42User(code);
+        let tokenResponse: TokenResponse =
+          await this.authService.generateToken42User(code);
+        let userInfo: UserAPIResponse =
+          await this.authService.getIntraUserInformation(
+            tokenResponse.access_token,
+          );
+        this.userService.createUser({
+          ft_id: userInfo.id,
+          wafrom: message.from,
+          accessToken: tokenResponse.access_token,
+          login: userInfo.login,
+          first_name: userInfo.first_name,
+          last_name: userInfo.last_name,
+          full_name: userInfo.usual_full_name,
+          displayname: userInfo.displayname,
+          refreshToken: tokenResponse.refresh_token,
+          phone: userInfo.phone,
+          campusID: userInfo.campus[0].id,
+        });
         await this.sendTextMessage(
           message.from,
-          `Your token is: ${token.access_token}`,
+          `
+        Hi ${userInfo.usual_full_name},
+
+        You are authinticated succesfuly :)!
+        `,
         );
+        console.log(userInfo);
       }
     });
   }
