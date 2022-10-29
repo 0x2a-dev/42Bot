@@ -22,6 +22,11 @@ export class UserService {
     });
   }
 
+  async getUserAccessTokenByPhone(wa_from: string): Promise<string> {
+    const user = await this.userByWhatsappFrom(wa_from);
+    return user.accessToken;
+  }
+
   async users(params: {
     skip?: number;
     take?: number;

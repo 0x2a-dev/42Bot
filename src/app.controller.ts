@@ -25,6 +25,7 @@ export class AppController {
   @Redirect()
   @Get('/logme')
   async logme(@Req() request: Request) {
+    console.log(request.query.code);
     return {
       url: `https://wa.me/971509394777?text=tk:${request.query.code}:`,
       status: 200,

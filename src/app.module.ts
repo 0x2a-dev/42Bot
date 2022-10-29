@@ -9,7 +9,8 @@ import { ProfileService } from './profile/profile.service';
 import { UserService } from './user/user.service';
 import { PrismaService } from './prisma.service';
 import { FtApiService } from './ft-api/ft-api.service';
-
+import { D4cService } from './d4c/d4c.service';
+import { TimeutilsService } from './timeutils/timeutils.service';
 @Module({
   imports: [HttpModule, ConfigModule.forRoot()],
   controllers: [AppController],
@@ -21,6 +22,8 @@ import { FtApiService } from './ft-api/ft-api.service';
     PrismaService,
     UserService,
     FtApiService,
+    D4cService,
+    TimeutilsService,
   ],
 })
 export class AppModule {

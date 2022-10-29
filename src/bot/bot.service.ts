@@ -3,34 +3,10 @@ import { create } from '@open-wa/wa-automate';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from 'src/auth/auth.service';
 import { UserService } from 'src/user/user.service';
-
-export interface TokenResponse {
-  access_token: string;
-  refresh_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string;
-  created_at: number;
-  [key: string]: any;
-}
-
-export interface Campus {
-  id: number;
-  name: string;
-}
-
-export interface UserAPIResponse {
-  id: number;
-  email: string;
-  login: string;
-  first_name: string;
-  last_name: string;
-  usual_full_name: string;
-  displayname: string;
-  phone: 'hidden' | string;
-  kind: 'student';
-  campus: [Campus];
-}
+import {
+  TokenResponse,
+  UserAPIResponse,
+} from 'src/interfaces/ft-api.interface';
 
 @Injectable()
 export class BotService {
@@ -65,22 +41,34 @@ export class BotService {
 
   start() {
     this.whatsapp.onMessage(async (message) => {
+      /**
+       * GREETINGS => Ask for login if not logged in
+       */
       if (message.body === 'Hi') {
-        await this.sendTextMessage(
-          message.from,
-          `Hello!
-					Please click on the link below to login to 42 API (you will be redirected afterwords to the chatbot so you can send us the code):
-					https://api.intra.42.fr/oauth/authorize?client_id=${this.configService.get(
-            'CID',
-          )}&redirect_uri=${this.configService.get(
-            'REDIRECT_URI',
-          )}&response_type=code&&scope=${this.configService.get('SCOPE')}`,
-        );
+        const user = await this.userService.userByWhatsappFrom(message.from);
+        if (user) {
+          this.whatsapp.sendText(
+            message.from,
+            `Welcome back ${user.full_name}!`,
+          );
+        } else {
+          await this.sendTextMessage(
+            message.from,
+            `Hello!
+            Please click on the link below to login to 42 API (you will be redirected afterwords to the chatbot so you can send us the code):
+            https://api.intra.42.fr/oauth/authorize?client_id=${this.configService.get(
+              'CID',
+            )}&redirect_uri=${this.configService.get(
+              'REDIRECT_URI',
+            )}&response_type=code&scope=${this.configService.get('SCOPE')}`,
+          );
+        }
       } else if (message.body.includes('tk:')) {
-        let code = message.body.split(':')[1];
-        let tokenResponse: TokenResponse =
-          await this.authService.generateToken42User(code);
-        let userInfo: UserAPIResponse =
+        const tokenResponse: TokenResponse =
+          await this.authService.generateToken42User(
+            message.body.split(':')[1],
+          );
+        const userInfo: UserAPIResponse =
           await this.authService.getIntraUserInformation(
             tokenResponse.access_token,
           );
@@ -106,9 +94,15 @@ You are authinticated succesfuly :)!
         `,
         );
         console.log(userInfo);
-      } else if (message.body.includes('access') || message.body.includes('Access')) {
-        let user = await this.userService.userByWhatsappFrom(message.from);
-        await this.sendTextMessage(message.from, `Your access toker is ${user.accessToken}`);
+      } else if (
+        message.body.includes('access') ||
+        message.body.includes('Access')
+      ) {
+        const user = await this.userService.userByWhatsappFrom(message.from);
+        await this.sendTextMessage(
+          message.from,
+          `Your access toker is ${user.accessToken}`,
+        );
       }
     });
   }

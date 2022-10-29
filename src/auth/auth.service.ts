@@ -14,7 +14,7 @@ export class AuthService {
   async generateToken42User(code: string) {
     // console.log(code.code);
     try {
-      let res: any = await this.httpService.axiosRef.post(
+      const res: any = await this.httpService.axiosRef.post(
         'https://api.intra.42.fr/oauth/token',
         {
           grant_type: 'authorization_code',
@@ -34,7 +34,7 @@ export class AuthService {
 
   async getIntraUserInformation(accessToken: string) {
     try {
-      let res: any = await this.httpService.axiosRef.get(
+      const res: any = await this.httpService.axiosRef.get(
         'https://api.intra.42.fr/v2/me',
         {
           headers: {

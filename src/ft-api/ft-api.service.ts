@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
+import { UserService } from 'src/user/user.service';
 
 interface FTRequest {
   url: string;
-  method: string;
   data?: any;
   params?: {
     [key: string]: string;
@@ -16,7 +16,10 @@ interface FTRequest {
 export class FtApiService {
   readonly FTAPIURL: string = 'https://api.intra.42.fr/v2';
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private userService: UserService,
+  ) {}
 
   async _get(request: FTRequest) {
     return (
@@ -24,7 +27,9 @@ export class FtApiService {
         params: request.params,
         data: request.data,
         headers: {
-          // Authorization: `Bearer ${this.configService.get('TOKEN')}`,
+          Authorization: `Bearer ${this.userService.getUserAccessTokenByPhone(
+            request.user,
+          )}`,
         },
       })
     ).data;
