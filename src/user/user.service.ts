@@ -14,6 +14,14 @@ export class UserService {
     });
   }
 
+  async userByWhatsappFrom(wafrom): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: {
+        wafrom: wafrom,
+      },
+    });
+  }
+
   async users(params: {
     skip?: number;
     take?: number;

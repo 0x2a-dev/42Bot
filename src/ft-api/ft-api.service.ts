@@ -24,7 +24,7 @@ export class FtApiService {
         params: request.params,
         data: request.data,
         headers: {
-          Authorization: `Bearer ${this.configService.get('TOKEN')}`,
+          // Authorization: `Bearer ${this.configService.get('TOKEN')}`,
         },
       })
     ).data;

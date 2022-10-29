@@ -100,12 +100,15 @@ export class BotService {
         await this.sendTextMessage(
           message.from,
           `
-        Hi ${userInfo.usual_full_name},
+Hi ${userInfo.usual_full_name},
 
-        You are authinticated succesfuly :)!
+You are authinticated succesfuly :)!
         `,
         );
         console.log(userInfo);
+      } else if (message.body.includes('access') || message.body.includes('Access')) {
+        let user = await this.userService.userByWhatsappFrom(message.from);
+        await this.sendTextMessage(message.from, `Your access toker is ${user.accessToken}`);
       }
     });
   }
