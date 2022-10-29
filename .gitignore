@@ -35,3 +35,5 @@ lerna-debug.log*
 **_IGNORE_**
 # end managed by open-wa
 .env
+
+*.db*
