@@ -12,7 +12,14 @@ import { PrismaService } from './prisma.service';
 @Module({
   imports: [HttpModule, ConfigModule.forRoot()],
   controllers: [AppController],
-  providers: [AppService, AuthService, BotService, ProfileService, PrismaService, UserService],
+  providers: [
+    AppService,
+    AuthService,
+    BotService,
+    ProfileService,
+    PrismaService,
+    UserService,
+  ],
 })
 export class AppModule {
   constructor(private botService: BotService) {

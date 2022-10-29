@@ -10,8 +10,12 @@ import { BotService } from './bot/bot.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private configService: ConfigService,
-     private authService: AuthService, private botService: BotService) {}
+  constructor(
+    private readonly appService: AppService,
+    private configService: ConfigService,
+    private authService: AuthService,
+    private botService: BotService,
+  ) {}
 
   @Get()
   getHello(): string {
@@ -21,6 +25,9 @@ export class AppController {
   @Redirect()
   @Get('/logme')
   async logme(@Req() request: Request) {
-    return { url : `https://wa.me/971509394777?text=tk:${request.query.code}:`, status: 200 };
+    return {
+      url: `https://wa.me/971509394777?text=tk:${request.query.code}:`,
+      status: 200,
+    };
   }
 }
