@@ -8,6 +8,7 @@ import { BotService } from './bot/bot.service';
 import { ProfileService } from './profile/profile.service';
 import { UserService } from './user/user.service';
 import { PrismaService } from './prisma.service';
+import { FtApiService } from './ft-api/ft-api.service';
 
 @Module({
   imports: [HttpModule, ConfigModule.forRoot()],
@@ -19,7 +20,7 @@ import { PrismaService } from './prisma.service';
     ProfileService,
     PrismaService,
     UserService,
-  ],
+    FtApiService],
 })
 export class AppModule {
   constructor(private botService: BotService) {
