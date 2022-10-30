@@ -1,17 +1,81 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AuthService } from 'src/auth/auth.service';
+import { BotService } from 'src/bot/bot.service';
+import { FtApiService } from 'src/ft-api/ft-api.service';
 import { TimeutilsService } from 'src/timeutils/timeutils.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class D4cService {
   constructor(
     private timeUtilsService: TimeutilsService,
     private configService: ConfigService,
+    private ftApiService: FtApiService,
+    private userService: UserService,
+    private authService: AuthService,
   ) {}
 
-  // userEligibliityCheck(user) {
+  async userEligibliityCheck(userWANumber: string): Promise<any> {
+    const access_token = await this.userService.getUserAccessTokenByPhone(
+      userWANumber,
+    );
+    const user = await this.authService.getIntraUserInformation(access_token);
+    const totalTime: number = await this.getTotalHoursWorkedInLab(
+      user,
+      await this.authService.getGeneralAccessToken(),
+    );
+    return {
+      eligible: this.isEligible(totalTime, user.blackhole_at),
+      totalTime,
+      days_to_blackhole:
+        this.timeUtilsService.getHoursOutofSeconds(totalTime) / 24,
+    };
+  }
 
-  // }
+  async getTotalHoursWorkedInLab(
+    user: any,
+    access_token: string,
+  ): Promise<number> {
+    try {
+      const logs = (
+        await this.ftApiService._get({
+          url: `/users/${user.login}/locations_stats`,
+          access_token: access_token,
+          params: {
+            'page[size]': '100',
+          },
+          user: user,
+        })
+      ).data;
+      let totalSeconds = 0;
+      console.log(logs);
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        const date_str = date.toISOString().slice(0, 10);
+
+        if (logs && this.arrayHasKey(logs, date_str)) {
+          const user_time = logs[date_str];
+          totalSeconds += this.timeUtilsService.getTimeinSeconds(user_time);
+          console.log(date_str + ': ' + totalSeconds);
+        }
+      }
+
+      return totalSeconds;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  arrayHasKey(arr, key) {
+    for (const obj of arr) {
+      if (key in obj) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   isEligible(time: number, blackhole: string) {
     if (

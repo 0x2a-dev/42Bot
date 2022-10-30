@@ -2,15 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { UserService } from 'src/user/user.service';
-
-interface FTRequest {
-  url: string;
-  data?: any;
-  params?: {
-    [key: string]: string;
-  };
-  user?: any;
-}
+import { FTRequest } from 'src/interfaces/ft-api.interface';
 
 @Injectable()
 export class FtApiService {
@@ -27,9 +19,7 @@ export class FtApiService {
         params: request.params,
         data: request.data,
         headers: {
-          Authorization: `Bearer ${this.userService.getUserAccessTokenByPhone(
-            request.user,
-          )}`,
+          Authorization: `Bearer ${request.access_token}`,
         },
       })
     ).data;

@@ -18,7 +18,7 @@ export class TimeutilsService {
     }
   }
 
-  getHoursOutofSeconds(time: number) {
+  getHoursOutofSecondsToString(time: number) {
     const hours = Math.floor(time / this.HOUR_IN_SECONDS);
     const minutes = Math.floor(
       (time % this.HOUR_IN_SECONDS) / this.MINUTE_IN_SECOUDS,
@@ -27,5 +27,14 @@ export class TimeutilsService {
       (time % this.HOUR_IN_SECONDS) % this.MINUTE_IN_SECOUDS,
     );
     return hours + ':' + minutes + ':' + seconds;
+  }
+
+  getTimestampInSeconds(): number {
+    return Math.floor(Date.now() / 1000);
+  }
+
+  getHoursOutofSeconds(time: number): number {
+    const hours = Math.floor(time / this.HOUR_IN_SECONDS);
+    return hours;
   }
 }

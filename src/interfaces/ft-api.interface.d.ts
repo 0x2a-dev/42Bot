@@ -25,3 +25,13 @@ export interface UserAPIResponse {
   kind: 'student';
   campus: [Campus];
 }
+
+export interface FTRequest {
+  url: string;
+  access_token: string;
+  data?: any;
+  params?: {
+    [key: string]: string;
+  };
+  user?: any;
+}
