@@ -25,10 +25,11 @@ export class D4cService {
       user,
       await this.authService.getGeneralAccessToken(),
     );
+    const blackholed_at = user.cursus_users.find(cursus => cursus.cursus.name === '42cursus').blackholed_at;
     return {
-      eligible: this.isEligible(totalTime, user.blackhole_at),
+      eligible: this.isEligible(totalTime, blackholed_at),
       totalTime,
-      days_to_blackhole: this.timetoblackhole(user.blackhole_at),
+      days_to_blackhole: this.timetoblackhole(blackholed_at),
     };
   }
 
