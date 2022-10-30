@@ -38,18 +38,16 @@ export class D4cService {
     access_token: string,
   ): Promise<number> {
     try {
-      const logs = (
-        await this.ftApiService._get({
-          url: `/users/${user.login}/locations_stats`,
-          access_token: access_token,
-          params: {
-            'page[size]': '100',
-          },
-          user: user,
-        })
-      ).data;
+      const logs = await this.ftApiService._get({
+        url: `/users/${user.login}/locations_stats`,
+        access_token: access_token,
+        params: {
+          'page[size]': '100',
+        },
+        user: user,
+      });
       let totalSeconds = 0;
-      console.log(logs);
+      // console.log('logs:', logs);
       for (let i = 6; i >= 0; i--) {
         const date = new Date();
         date.setDate(date.getDate() - i);
@@ -68,10 +66,8 @@ export class D4cService {
   }
 
   arrayHasKey(arr, key) {
-    for (const obj of arr) {
-      if (key in obj) {
-        return true;
-      }
+    if (key in arr) {
+      return true;
     }
     return false;
   }
