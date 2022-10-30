@@ -1,7 +1,7 @@
 # 42-Whatsapp BOT
 ## Description
 
-42 Whatsapp Bot is a simple Bot that helps its users use common functionalities they have in their Intra but with 
+42 Whatsapp Bot is a simple Bot that helps its users use common functionalities they have in their Intra and more ..
 ## Installation
 
 ```bash

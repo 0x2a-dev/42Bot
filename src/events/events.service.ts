@@ -11,8 +11,9 @@ export class EventsService {
         url: `/events`,
         access_token: access_token,
         params: {
-          'filter[campus_id]': '43',
-          'page[size]': '100',
+          campus_id: '43',
+          'page[size]': '10',
+          sort: 'end_at',
         },
         user: user,
       });

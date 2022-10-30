@@ -62,7 +62,7 @@ export class BotService {
           user.refreshToken,
         );
       }
-      if (message.body === 'Hi') {
+      if (message.body === 'Hi' || !user) {
         if (user) {
           this.whatsapp.sendText(
             message.from,
@@ -108,7 +108,7 @@ https://api.intra.42.fr/oauth/authorize?client_id=${this.configService.get(
           `
 Hi ${userInfo.usual_full_name},
 
-You are authinticated succesfuly :)!
+You are authenticated succesfuly :)!
         `,
         );
         console.log(userInfo);
@@ -125,12 +125,25 @@ You have ${eligiblilty.days_to_blackhole} days left before your blackhole date.
 You are ${eligiblilty.isEligible ? '*eligible*' : '*not eligible*'} for D4C.`,
         );
       } else if (message.body === 'events' || message.body === 'Events') {
-        const events = await this.eventsService.getEvents(message.from, user);
+        const events = await this.eventsService.getEvents(
+          user.accessToken as string,
+          user,
+        );
         console.log(events);
         this.sendTextMessage(
           message.from,
           `
-          You have ${events.length} events this week.
+          You have ${events.length} events upcomping.
+          `,
+        );
+      } else if (message.body === 'help' || message.body === 'Help') {
+        this.sendTextMessage(
+          message.from,
+          `
+          Hi, I am 42BOT, I can help you with the following commands: 
+          - D4C: Check your D4C eligibility
+          - Events: Check your events for this week
+          - Help: Show this message
           `,
         );
       } else if (
