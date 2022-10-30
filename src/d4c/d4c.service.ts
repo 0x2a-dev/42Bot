@@ -28,8 +28,8 @@ export class D4cService {
     return {
       eligible: this.isEligible(totalTime, user.blackhole_at),
       totalTime,
-      days_to_blackhole:
-        this.timeUtilsService.getHoursOutofSeconds(totalTime) / 24,
+      days_to_blackhole: 
+        this.timetoblackhole(user.blackhole_at),
     };
   }
 

@@ -120,7 +120,9 @@ You are authenticated succesfuly :)!
         this.sendTextMessage(
           message.from,
           `
-          You have worked ${eligiblilty.totalTime} hours this week.
+          You have worked ${this.timeUtilsService.getHoursOutofSeconds(
+            eligiblilty.totalTime,
+          )} hours this week.
 You have ${eligiblilty.days_to_blackhole} days left before your blackhole date.
 You are ${eligiblilty.isEligible ? '*eligible*' : '*not eligible*'} for D4C.`,
         );
