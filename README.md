@@ -8,6 +8,12 @@
 $ npm install
 ```
 
+## Setup the database and migration
+
+```bash
+$ npm run db:migrate
+```
+
 ## Running the app
 
 ```bash
