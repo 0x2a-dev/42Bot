@@ -143,9 +143,9 @@ You are ${eligiblilty.isEligible ? '*eligible*' : '*not eligible*'} for D4C.`,
           message.from,
           `
           Hi, I am 42BOT, I can help you with the following commands: 
-          - D4C: Check your D4C eligibility
-          - Events: Check your events for this week
-          - Help: Show this message
+  - D4C: Check your D4C eligibility
+  - Events: Check your events for this week
+  - Help: Show this message
           `,
         );
       } else if (
