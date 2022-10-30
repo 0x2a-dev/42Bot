@@ -27,7 +27,9 @@ export class AppController {
   async logme(@Req() request: Request) {
     console.log(request.query.code);
     return {
-      url: `https://wa.me/971509394777?text=tk:${request.query.code}:`,
+      url: `https://wa.me/${this.configService.get('BOTNUMBER')}?text=tk:${
+        request.query.code
+      }:`,
       status: 200,
     };
   }

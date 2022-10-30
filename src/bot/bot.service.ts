@@ -72,7 +72,7 @@ export class BotService {
           await this.sendTextMessage(
             message.from,
             `Hello!
-            Please click on the link below to login to 42 API (you will be redirected afterwords to the chatbot so you can send us the code):
+Please click on the link below to login to 42 API (you will be redirected afterwords to the chatbot so you can send us the code):
 https://api.intra.42.fr/oauth/authorize?client_id=${this.configService.get(
               'CID',
             )}&redirect_uri=${this.configService.get(
@@ -121,12 +121,8 @@ You are authinticated succesfuly :)!
           message.from,
           `
           You have worked ${eligiblilty.totalTime} hours this week.
-          You have ${
-            eligiblilty.days_to_blackhole
-          } days left before your blackhole date.
-          You are ${
-            eligiblilty.isEligible ? '*eligible*' : '*not eligible*'
-          } for D4C.`,
+You have ${eligiblilty.days_to_blackhole} days left before your blackhole date.
+You are ${eligiblilty.isEligible ? '*eligible*' : '*not eligible*'} for D4C.`,
         );
       } else if (message.body === 'events' || message.body === 'Events') {
         const events = await this.eventsService.getEvents(message.from, user);

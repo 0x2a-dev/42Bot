@@ -84,7 +84,7 @@ export class AuthService {
           displayname: user.displayname,
           refreshToken: res.refresh_token,
           phone: user.phone,
-          campusID: user.campus[0].id,
+          campusID: user.campusID,
         },
       });
       // console.log(res.data);
