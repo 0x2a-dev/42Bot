@@ -11,6 +11,7 @@ import { PrismaService } from './prisma.service';
 import { FtApiService } from './ft-api/ft-api.service';
 import { D4cService } from './d4c/d4c.service';
 import { TimeutilsService } from './timeutils/timeutils.service';
+import { EventsService } from './events/events.service';
 @Module({
   imports: [HttpModule, ConfigModule.forRoot()],
   controllers: [AppController],
@@ -24,6 +25,7 @@ import { TimeutilsService } from './timeutils/timeutils.service';
     FtApiService,
     D4cService,
     TimeutilsService,
+    EventsService,
   ],
 })
 export class AppModule {

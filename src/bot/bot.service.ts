@@ -9,6 +9,7 @@ import {
   TokenResponse,
   UserAPIResponse,
 } from 'src/interfaces/ft-api.interface';
+import { EventsService } from 'src/events/events.service';
 
 @Injectable()
 export class BotService {
@@ -20,6 +21,7 @@ export class BotService {
     private userService: UserService,
     private d4cService: D4cService,
     private timeUtilsService: TimeutilsService,
+    private eventsService: EventsService,
   ) {}
 
   async init() {
@@ -125,6 +127,15 @@ You are authinticated succesfuly :)!
           You are ${
             eligiblilty.isEligible ? '*eligible*' : '*not eligible*'
           } for D4C.`,
+        );
+      } else if (message.body === 'events' || message.body === 'Events') {
+        const events = await this.eventsService.getEvents(message.from, user);
+        console.log(events);
+        this.sendTextMessage(
+          message.from,
+          `
+          You have ${events.length} events this week.
+          `,
         );
       } else if (
         message.body.includes('access') ||

@@ -54,7 +54,6 @@ export class D4cService {
         const date = new Date();
         date.setDate(date.getDate() - i);
         const date_str = date.toISOString().slice(0, 10);
-
         if (logs && this.arrayHasKey(logs, date_str)) {
           const user_time = logs[date_str];
           totalSeconds += this.timeUtilsService.getTimeinSeconds(user_time);
