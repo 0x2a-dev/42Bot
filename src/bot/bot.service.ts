@@ -112,7 +112,11 @@ You are authenticated succesfuly :)!
         `,
         );
         console.log(userInfo);
-      } else if (message.body === 'D4C' || message.body === 'D4c' || message.body === 'd4c') {
+      } else if (
+        message.body === 'D4C' ||
+        message.body === 'D4c' ||
+        message.body === 'd4c'
+      ) {
         const eligiblilty = await this.d4cService.userEligibliityCheck(
           message.from,
         );
@@ -123,7 +127,9 @@ You are authenticated succesfuly :)!
           You have worked ${this.timeUtilsService.getHoursOutofSeconds(
             eligiblilty.totalTime,
           )} hours this week.
-You have ${Math.floor(eligiblilty.days_to_blackhole)} days left before your blackhole date.
+You have ${Math.floor(
+            eligiblilty.days_to_blackhole,
+          )} days left before your blackhole date.
 You are ${eligiblilty.isEligible ? '*eligible*' : '*not eligible*'} for D4C.`,
         );
       } else if (message.body === 'events' || message.body === 'Events') {
