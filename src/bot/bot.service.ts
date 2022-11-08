@@ -62,7 +62,7 @@ export class BotService {
           user.refreshToken,
         );
       }
-      if (!user || message.body === 'Hi') {
+      if (!message.body.includes('tk:') && (!user || message.body === 'Hi')) {
         if (user) {
           this.whatsapp.sendText(
             message.from,
@@ -147,6 +147,8 @@ You are ${eligiblilty.isEligible ? '*eligible*' : '*not eligible*'} for D4C.`,
   - D4C: Check your D4C eligibility
   - Events: Check your events for this week
   - Help: Show this message
+
+Source: https://github.com/MalikZu/42Bot
           `,
         );
       } else if (
