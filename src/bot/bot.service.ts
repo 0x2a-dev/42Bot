@@ -154,7 +154,7 @@ You are ${eligiblilty.isEligible ? '*eligible*' : '*not eligible*'} for D4C.`,
   - Events: Check your events for this week
   - Help: Show this message
 
-Source: https://github.com/MalikZu/42Bot
+Source code: https://github.com/0x2a-dev/42Bot
           `,
         );
       } else if (
