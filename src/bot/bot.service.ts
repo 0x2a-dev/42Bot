@@ -130,7 +130,7 @@ You are authenticated succesfuly :)!
 You have ${Math.floor(
             eligiblilty.days_to_blackhole,
           )} days left before your blackhole date.
-You are ${eligiblilty.isEligible ? '*eligible*' : '*not eligible*'} for D4C.`,
+You are ${eligiblilty.eligible ? '*eligible*' : '*not eligible*'} for D4C.`,
         );
       } else if (message.body === 'events' || message.body === 'Events') {
         const events = await this.eventsService.getEvents(
